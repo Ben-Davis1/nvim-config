@@ -40,12 +40,6 @@ return require("packer").startup(function(use)
   -- nvim
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
 
-  -- nvm-autopairs
-  -- https://github.com/windwp/nvim-autopairs
-  -- Autopair plugin
-  -- nvim
-  use("windwp/nvim-autopairs")
-
   -- nvim-comment
   -- https://github.com/terrortylor/nvim-comment
   -- Easy commenting bindings
@@ -56,7 +50,7 @@ return require("packer").startup(function(use)
   -- https://github.com/bluz71/vim-nightfly-colors
   -- Theme
   -- nvim and vim
-  use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
+  use({ "catppuccin/nvim", as = "catppuccin" })
 
   -- coc.nvim
   -- https://github.com/neoclide/coc.nvim
