@@ -1,0 +1,21 @@
+- Finish moving over to Lua
+- Write keybindings file
+- for Default keybindings
+- for Telescope key binds
+- for nvimtree keybinds
+- Understand what nvimtree can do
+- tree close on enter
+- close tags
+- lualine unsaved changes
+- Fix tab text disappearing
+- Move from vim-polyglot to treesitter
+- Remove vim-plug
+- Condense plugin setup down
+- Write an explanation of vimscript vs nvim (and how packer does both, pros and cons etc)
+- Write an explanation of nvim setup
+- Write an explanation of what lua setup does
+- Lua conventions
+- learn more about vim
+- Make sure I'm using vim the way it was intended
+- Quick save
+- Work out how to stop vim error in lua
