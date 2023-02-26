@@ -99,6 +99,10 @@ vim.api.nvim_create_autocmd(
 -- Close Vim if NvimTree is the last buffer
 vim.api.nvim_create_autocmd("QuitPre", {
     callback = function()
+        print(vim.api.nvim_buf_get_name(0))
+        if (string.find(vim.api.nvim_buf_get_name(0), ".git//")) then
+            return
+        end
         if (vim.fn.winnr("$") == 1 and string.find(vim.api.nvim_buf_get_name(0), "NvimTree_")) then
             return
         else
