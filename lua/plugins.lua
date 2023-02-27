@@ -26,6 +26,8 @@ return require("packer").startup(function(use)
   -- nvim
   use("nvim-tree/nvim-tree.lua")
 
+  use("marklcrns/vim-smartq")
+
   -- buftabline.nvim
   -- https://github.com/jose-elias-alvarez/buftabline.nvim (unmaintained)
   -- Buffers as tabs
@@ -38,7 +40,16 @@ return require("packer").startup(function(use)
   -- Maybe I need treesitter?
   -- Has bug where live_grep highlighting doesn't work
   -- nvim
-  use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
+  use {
+    "nvim-telescope/telescope.nvim",
+    requires = {
+      { "nvim-telescope/telescope-live-grep-args.nvim" },
+      { "nvim-lua/plenary.nvim" }
+    },
+    config = function()
+      require("telescope").load_extension("live_grep_args")
+    end
+  }
 
   -- nvim-comment
   -- https://github.com/terrortylor/nvim-comment

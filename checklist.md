@@ -15,3 +15,4 @@
 - learn more about vim
 - Make sure I'm using vim the way it was intended
 - Work out how to stop vim error in lua
+- Fix jumping to tree on Git

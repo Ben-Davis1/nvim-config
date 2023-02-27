@@ -22,10 +22,21 @@ require("nvim-tree").setup()
 -- Start buftabline
 require("buftabline").setup()
 
--- Start Telescope with vertical layout and mapping to close when pressing escape in insert mode
+-- Start Telescope with vertical layout and mappings
 local actions = require("telescope.actions")
 require('telescope').setup({
-    defaults = { layout_strategy = 'vertical', mappings = { i = { ["<esc>"] = actions.close } } } })
+    defaults = {
+        layout_strategy = 'vertical',
+        mappings = {
+            i = { ["<C-ESC>"] = actions.close },
+            n = {
+                ["<UP>"] = actions.cycle_history_prev,
+                ["<DOWN>"] = actions.cycle_history_next,
+
+            }
+        }
+    }
+})
 
 -- Start nvim-comment
 require("nvim_comment").setup()
@@ -99,11 +110,10 @@ vim.api.nvim_create_autocmd(
 -- Close Vim if NvimTree is the last buffer
 vim.api.nvim_create_autocmd("QuitPre", {
     callback = function()
-        print(vim.api.nvim_buf_get_name(0))
         if (string.find(vim.api.nvim_buf_get_name(0), ".git//")) then
             return
         end
-        if (vim.fn.winnr("$") == 1 and string.find(vim.api.nvim_buf_get_name(0), "NvimTree_")) then
+        if (vim.fn.winnr("$") > 2 or (vim.fn.winnr("$") == 1 and string.find(vim.api.nvim_buf_get_name(0), "NvimTree_"))) then
             return
         else
             vim.cmd("NvimTreeClose")
@@ -111,7 +121,6 @@ vim.api.nvim_create_autocmd("QuitPre", {
     end
 })
 
---
 vim.api.nvim_create_autocmd(
     "BufLeave",
     {
@@ -120,6 +129,7 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
+
 vim.api.nvim_create_autocmd(
     "BufEnter",
     {
@@ -136,6 +146,11 @@ vim.api.nvim_create_autocmd(
 
 
 -- User commands
+--
+-- General
+vim.api.nvim_create_user_command("Q",
+    function() if (string.find(vim.api.nvim_buf_get_name(0), ".git//")) then vim.cmd("q | wincmd p") else vim.cmd("q") end end,
+    { bang = true })
 
 -- Vim fugitive extras by me
 -- :h nargs :h q-args
@@ -149,6 +164,10 @@ vim.api.nvim_create_user_command("Gb", ":Git fetch | :Git checkout <q-args> | :G
 vim.api.nvim_create_user_command("Gbd", ":Git checkout development | :Git fetch | :Git pull", {})
 -- Git branch new
 vim.api.nvim_create_user_command("Gbn", ":Git checkout -b <q-args>", { nargs = 1 })
+
+-- Telescope
+vim.api.nvim_create_user_command("F", ":Telescope live_grep_args default_text=<args>", { nargs = "?" })
+vim.api.nvim_create_user_command("Ff", ":Telescope find_files default_text=<args>", { nargs = "?" })
 --
 
 
@@ -162,8 +181,9 @@ vim.keymap.set('n', '<Leader>w', ":quit<CR>")
 
 -- Telescope
 local builtin = require('telescope.builtin')
+local extensions = require('telescope').extensions
 vim.keymap.set('n', '<Leader>p', builtin.find_files)
-vim.keymap.set('n', '<Leader>o', builtin.live_grep)
+vim.keymap.set('n', '<Leader>o', extensions.live_grep_args.live_grep_args)
 
 -- Nvim tree
 vim.keymap.set('n', '<Leader>.', ":NvimTreeFindFile<CR>")
@@ -177,6 +197,7 @@ vim.keymap.set("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "<cr>"]],
 vim.keymap.set("i", "<TAB>", [[coc#pum#visible() ? coc#pum#confirm() : "<TAB>"]],
     { silent = true, noremap = true, expr = true, replace_keycodes = false })
 --
+
 
 
 -- VimScript only configuration
@@ -197,4 +218,6 @@ call submode#map('delbuffer', 'n', '', '\', ':bn <CR> :bd#<CR>')
 call submode#enter_with('prevbuffer', 'n', '', '<leader>,', ':b#<CR>')
 call submode#map('prevbuffer', 'n', '', ',', ':b#<CR>')
 ]])
+
+vim.cmd("cabbrev q Q")
 --
