@@ -32,7 +32,7 @@ require('telescope').setup({
             n = {
                 ["<UP>"] = actions.cycle_history_prev,
                 ["<DOWN>"] = actions.cycle_history_next,
-
+                ["o"] = actions.select_default
             }
         }
     }
@@ -94,6 +94,7 @@ vim.opt.termguicolors = true
 -- Stops new line being added
 -- :h fixeol
 vim.opt.fixeol = false
+
 --
 
 
@@ -219,5 +220,6 @@ call submode#enter_with('prevbuffer', 'n', '', '<leader>,', ':b#<CR>')
 call submode#map('prevbuffer', 'n', '', ',', ':b#<CR>')
 ]])
 
-vim.cmd("cabbrev q Q")
+vim.cmd([[cabbrev q <c-r>=(stridx(bufname(''), '.git//') >= 0 ? 'Q' : 'q')<CR>]])
+
 --

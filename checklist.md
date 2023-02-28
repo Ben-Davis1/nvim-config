@@ -15,4 +15,10 @@
 - learn more about vim
 - Make sure I'm using vim the way it was intended
 - Work out how to stop vim error in lua
-- Fix jumping to tree on Git
+- Leave comments for new additions
+- remove vim-smartq
+- Make telescope more comfortable - open in normal mode when searching from command line
+- See what else I can use from teelscope
+- Git diff and git blame
+- Coc stuf
+- Auto suggest in comment
