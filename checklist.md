@@ -4,7 +4,6 @@
 - for Telescope key binds
 - for nvimtree keybinds
 - Understand what nvimtree can do
-- tree close on enter
 - close tags
 - Move from vim-polyglot to treesitter
 - Condense plugin setup down
@@ -15,10 +14,10 @@
 - learn more about vim
 - Make sure I'm using vim the way it was intended
 - Work out how to stop vim error in lua
-- Leave comments for new additions
-- remove vim-smartq
-- Make telescope more comfortable - open in normal mode when searching from command line
 - See what else I can use from teelscope
 - Git diff and git blame
 - Coc stuf
 - Auto suggest in comment
+- Mark why abbreviation  is in vimscript
+- COme up with telescope quickfix solution and stop auto pair/having to escape chars
+- Answe questions about options

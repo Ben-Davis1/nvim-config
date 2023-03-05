@@ -26,8 +26,6 @@ return require("packer").startup(function(use)
   -- nvim
   use("nvim-tree/nvim-tree.lua")
 
-  use("marklcrns/vim-smartq")
-
   -- buftabline.nvim
   -- https://github.com/jose-elias-alvarez/buftabline.nvim (unmaintained)
   -- Buffers as tabs
@@ -57,11 +55,11 @@ return require("packer").startup(function(use)
   -- nvim
   use("terrortylor/nvim-comment")
 
-  -- vim-nightfly-colors
-  -- https://github.com/bluz71/vim-nightfly-colors
+  -- tokyodark
+  -- https://github.com/tiagovla/tokyodark.nvim
   -- Theme
-  -- nvim and vim
-  use({ "catppuccin/nvim", as = "catppuccin" })
+  -- nvim
+  use 'tiagovla/tokyodark.nvim'
 
   -- coc.nvim
   -- https://github.com/neoclide/coc.nvim

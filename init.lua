@@ -122,19 +122,27 @@ vim.api.nvim_create_autocmd("QuitPre", {
     end
 })
 
+-- Save state of Buffer when leaving. This saves the position of the cursor (unless it's NVimTree)
 vim.api.nvim_create_autocmd(
     "BufLeave",
     {
         callback = function()
+            if (string.find(vim.api.nvim_buf_get_name(0), "NvimTree_")) then
+                return
+            end
             vim.b.winview = vim.fn.winsaveview()
         end
     }
 )
 
+-- Load state of Buffer when entering. This restores the position of the cursor (unless it's NiimTree)
 vim.api.nvim_create_autocmd(
     "BufEnter",
     {
         callback = function()
+            if (string.find(vim.api.nvim_buf_get_name(0), "NvimTree_")) then
+                return
+            end
             if (vim.b.winview) then
                 vim.fn.winrestview(vim.b.winview)
             end
@@ -142,6 +150,11 @@ vim.api.nvim_create_autocmd(
     }
 )
 
+-- Change tab highlight colour for tokyodark colorscheme
+vim.api.nvim_create_autocmd(
+    "BufEnter",
+    { command = "highlight TabLineSel guifg=NONE guibg=NONE" }
+)
 --
 
 
@@ -149,8 +162,9 @@ vim.api.nvim_create_autocmd(
 -- User commands
 --
 -- General
+-- Used when exiting .git buffer (see Vim only commands below). Workaround for NVimTree being focused instead of previous buffer
 vim.api.nvim_create_user_command("Q",
-    function() if (string.find(vim.api.nvim_buf_get_name(0), ".git//")) then vim.cmd("q | wincmd p") else vim.cmd("q") end end,
+    function() vim.cmd("q | wincmd p") end,
     { bang = true })
 
 -- Vim fugitive extras by me
@@ -167,8 +181,27 @@ vim.api.nvim_create_user_command("Gbd", ":Git checkout development | :Git fetch 
 vim.api.nvim_create_user_command("Gbn", ":Git checkout -b <q-args>", { nargs = 1 })
 
 -- Telescope
-vim.api.nvim_create_user_command("F", ":Telescope live_grep_args default_text=<args>", { nargs = "?" })
-vim.api.nvim_create_user_command("Ff", ":Telescope find_files default_text=<args>", { nargs = "?" })
+-- This import is a duplication but good to have for clarity
+local builtin = require('telescope.builtin')
+local extensions = require('telescope').extensions
+vim.api.nvim_create_user_command("F",
+    function(args)
+        extensions.live_grep_args.live_grep_args({ default_text = args.args })
+        if (args.args ~= "") then
+            -- Puts telescope picker in normal mode 1 ms after opening (need the delay to wait for the picker to open)
+            vim.defer_fn(function() vim.cmd.stopinsert() end, 1)
+        end
+    end,
+    { nargs = "?" })
+vim.api.nvim_create_user_command("Ff",
+    function(args)
+        builtin.find_files({ default_text = args.args })
+        if (args.args ~= "") then
+            -- Puts telescope picker in normal mode 1 ms after opening (need the delay to wait for the picker to open)
+            vim.defer_fn(function() vim.cmd.stopinsert() end, 1)
+        end
+    end,
+    { nargs = "?" })
 --
 
 
@@ -179,6 +212,11 @@ vim.api.nvim_create_user_command("Ff", ":Telescope find_files default_text=<args
 -- General
 vim.keymap.set('n', '<Leader>s', ":update<CR>")
 vim.keymap.set('n', '<Leader>w', ":quit<CR>")
+-- Tab and shift tab to indent and de-indent in normal and insert mode (tab already indents in insert mode but just adding for clarity)
+vim.keymap.set('n', '<TAB>', ">>")
+vim.keymap.set('n', '<S-TAB>', "<<")
+vim.keymap.set('i', '<TAB>', "<C-t>")
+vim.keymap.set('i', '<S-TAB>', "<C-d>")
 
 -- Telescope
 local builtin = require('telescope.builtin')
@@ -204,9 +242,10 @@ vim.keymap.set("i", "<TAB>", [[coc#pum#visible() ? coc#pum#confirm() : "<TAB>"]]
 -- VimScript only configuration
 
 -- :h colorscheme
-vim.cmd("colorscheme catppuccin")
+vim.cmd("colorscheme tokyodark")
 
 -- Submodes:verbose imap <CR>
+-- delbuffer doesn't work with bd but that's ok!
 vim.cmd([[
 call submode#enter_with('switchbuffer', 'n', '', '<leader>[', ':bp<CR>')
 call submode#enter_with('switchbuffer', 'n', '', '<leader>]', ':bn<CR>')
@@ -220,6 +259,6 @@ call submode#enter_with('prevbuffer', 'n', '', '<leader>,', ':b#<CR>')
 call submode#map('prevbuffer', 'n', '', ',', ':b#<CR>')
 ]])
 
+-- Uses the custom user command :Q when in git buffer (see :Q above)
 vim.cmd([[cabbrev q <c-r>=(stridx(bufname(''), '.git//') >= 0 ? 'Q' : 'q')<CR>]])
-
 --
