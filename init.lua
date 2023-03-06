@@ -51,6 +51,8 @@ vim.g.mapleader = " "
 
 -- https://github.com/kana/vim-submode/blob/master/doc/submode.txt#L216
 vim.g.submode_keep_leaving_key = true
+-- Stop submode timing out
+vim.g.submode_timeout = 0
 --
 
 
