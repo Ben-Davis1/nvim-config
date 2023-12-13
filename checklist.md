@@ -21,3 +21,4 @@
 - Mark why abbreviation  is in vimscript
 - COme up with telescope quickfix solution and stop auto pair/having to escape chars
 - Answe questions about options
+- Fix redo

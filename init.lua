@@ -17,7 +17,16 @@ require("plugins")
 require("lualine").setup()
 
 -- Start nvim.tree
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+    renderer = {
+        full_name = true
+    },
+    view = {
+        width = {
+            max = 50
+        }
+    }
+})
 
 -- Start buftabline
 require("buftabline").setup()
@@ -28,17 +37,18 @@ require('telescope').setup({
     defaults = {
         layout_strategy = 'vertical',
         mappings = {
-            i = { ["<C-ESC>"] = actions.close },
-            n = {
+            i = {
                 ["<UP>"] = actions.cycle_history_prev,
                 ["<DOWN>"] = actions.cycle_history_next,
-                ["o"] = actions.select_default
+                ["<C-ESC>"] = actions.close },
+            n = {
+                ["o"] = actions.select_default,
             }
         }
     }
 })
 
--- Start nvim-comment
+-- start nvim-comment
 require("nvim_comment").setup()
 --
 
@@ -105,6 +115,8 @@ vim.opt.fixeol = false
 -- https://alpha2phi.medium.com/neovim-for-beginners-lua-autocmd-and-keymap-functions-3bdfe0bebe42
 
 -- Open NvimTree on opening Vim
+--
+--
 vim.api.nvim_create_autocmd(
     "VimEnter",
     { command = "NvimTreeToggle" }
