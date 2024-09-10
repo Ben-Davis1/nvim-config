@@ -114,14 +114,6 @@ vim.opt.fixeol = false
 -- Autocmd
 -- https://alpha2phi.medium.com/neovim-for-beginners-lua-autocmd-and-keymap-functions-3bdfe0bebe42
 
--- Open NvimTree on opening Vim
---
---
-vim.api.nvim_create_autocmd(
-    "VimEnter",
-    { command = "NvimTreeToggle" }
-)
-
 -- Close Vim if NvimTree is the last buffer
 vim.api.nvim_create_autocmd("QuitPre", {
     callback = function()

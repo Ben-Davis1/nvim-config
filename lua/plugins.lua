@@ -68,6 +68,19 @@ return require("packer").startup(function(use)
   -- nvim and vim
   use({ "neoclide/coc.nvim", branch = "release" })
 
+  -- hop
+  -- https://github.com/smoka7/hop.nvim
+  -- Nvim hop
+  -- nvim
+  use {
+    'smoka7/hop.nvim',
+    -- Version
+    tag = '*',
+    config = function()
+      require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+    end
+  }
+
   -- vim-polyglot
   -- https://github.com/sheerun/vim-polyglot
   -- Syntax highlighting for a bunch of languages
@@ -91,4 +104,10 @@ return require("packer").startup(function(use)
   -- Vim submode stuff
   -- vim
   use("kana/vim-submode")
+
+  -- copilot
+  -- https://github.com/github/copilot.vim
+  -- GitHub Copilot
+  -- vim
+  use("github/copilot.vim")
 end)
