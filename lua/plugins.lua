@@ -5,12 +5,6 @@ return require("packer").startup(function(use)
   -- nvim
   use("wbthomason/packer.nvim")
 
-  -- Nvim-web-devicons
-  -- https://github.com/nvim-tree/nvim-web-devicons
-  -- Icons
-  -- nvim
-  use("nvim-tree/nvim-web-devicons")
-
   -- lualine.nvim
   -- https://github.com/nvim-lualine/lualine.nvim
   -- statusline
@@ -24,7 +18,11 @@ return require("packer").startup(function(use)
   -- File tree
   -- Relies on nvim-web-devicons
   -- nvim
-  use("nvim-tree/nvim-tree.lua")
+  use({
+    "nvim-tree/nvim-tree.lua",
+    tag = "v1.7.0",
+    requires = { "nvim-tree/nvim-web-devicons" }
+  })
 
   -- buftabline.nvim
   -- https://github.com/jose-elias-alvarez/buftabline.nvim (unmaintained)
